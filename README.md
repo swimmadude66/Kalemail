@@ -33,6 +33,9 @@ Once these variables are set:
 2. Run `npm run gulp`. This will build the code in to a `dist` directory.
 3. Run `npm start` and navigate to `localhost:3000` or your host and the port configured by `NODE_PORT`. The SMTP server will be running on poty 25 unless overridden by `SMTP_PORT`.
 
+## Development
+While developing, you can use the convenience method `npm run dev` to start the app in an auto-reload state, which will automatically recompile and restart the server and client on changes.
+
 ## Email On Acid Integration
 Mailkatcher supports litmus testing through a service called [EmailOnAcid](https://www.emailonacid.com/). To enable this feature, you need an Email on Acid account with API access. Simply add two keys to your environment variables:
 ```
