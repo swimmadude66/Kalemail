@@ -39,8 +39,8 @@ const ENVIRONMENT_CONFIG: EnvironmentConfig = {
     fileSystemStorageRoot: process.env.FILESYSTEM_ROOT,
     s3Bucket: process.env.S3_BUCKET,
     s3Folder: process.env.S3_FOLDER,
-    s3AccessKey: process.env.S3_ACCESS,
-    s3SecretKey: process.env.S3_SECRET,
+    s3AccessKey: process.env.S3_ACCESS || process.env.AWS_ACCESS_KEY_ID,
+    s3SecretKey: process.env.S3_SECRET || process.env.AWS_SECRET_ACCESS_KEY,
     s3Region: process.env.S3_REGION,
     emailOnAcidApiKey: process.env.EOAAPI,
     emailOnAcidPass: process.env.EOAPASS
