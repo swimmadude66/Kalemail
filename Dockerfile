@@ -16,9 +16,9 @@ nodejs-npm \
 && cd /app \
 && npm i --only="prod" \
 && rm -rf /build \
-&& mkdir -p -m 0777 /var/lig/mailkatcher \
+&& mkdir -p -m 0777 /var/log/kalemail \
 && npm cache clean --force
 
 WORKDIR /app
 
-ENTRYPOINT ["pm2-docker", "bin/server/app.js", "-l /var/log/mailkatcher/mailkatcher.logs"]
+ENTRYPOINT ["pm2-docker", "bin/server/app.js", "-l /var/log/kalemail/kalemail.logs"]

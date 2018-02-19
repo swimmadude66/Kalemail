@@ -16,11 +16,11 @@ describe('ParserService', () => {
                 header: {
                     messageId: 'messageidPlainText',
                     from: {
-                        address: 'test@mailkatcher.local',
+                        address: 'test@kalemail.local',
                     },
                     subject: 'plaintext Email',
                     date: new Date().toString(),
-                    to: {address: 'test@mailkatcher.local'},
+                    to: {address: 'test@kalemail.local'},
                 },
                 '0': 'This is a plaintext email'
             };
@@ -31,11 +31,11 @@ describe('ParserService', () => {
             expect(parsed.to).to.be.an('array', 'to is not an array');
             expect(parsed.to).to.have.length.at.least(1, 'less than one memeber in to field');
             expect(parsed.to[0]).to.contain.keys('address');
-            expect(parsed.to[0].address).to.equal('test@mailkatcher.local', 'to field is not correct');
+            expect(parsed.to[0].address).to.equal('test@kalemail.local', 'to field is not correct');
 
 
             expect(parsed.from).to.contain.keys('address');
-            expect(parsed.from.address).to.equal('test@mailkatcher.local', 'from field is not correct');
+            expect(parsed.from.address).to.equal('test@kalemail.local', 'from field is not correct');
 
             expect(parsed.subject).to.equal('plaintext Email', 'subjects do not match!');
 
@@ -49,11 +49,11 @@ describe('ParserService', () => {
                 header: {
                     messageId: 'messageidHtml',
                     from: {
-                        address: 'test@mailkatcher.local',
+                        address: 'test@kalemail.local',
                     },
                     subject: 'Html Email',
                     date: new Date().toString(),
-                    to: {address: 'test@mailkatcher.local'},
+                    to: {address: 'test@kalemail.local'},
                 },
                 '0': {
                     header: {
@@ -72,11 +72,11 @@ describe('ParserService', () => {
             expect(parsed.to).to.be.an('array', 'to is not an array');
             expect(parsed.to).to.have.length.at.least(1, 'less than one memeber in to field');
             expect(parsed.to[0]).to.contain.keys('address');
-            expect(parsed.to[0].address).to.equal('test@mailkatcher.local', 'to field is not correct');
+            expect(parsed.to[0].address).to.equal('test@kalemail.local', 'to field is not correct');
 
 
             expect(parsed.from).to.contain.keys('address');
-            expect(parsed.from.address).to.equal('test@mailkatcher.local', 'from field is not correct');
+            expect(parsed.from.address).to.equal('test@kalemail.local', 'from field is not correct');
 
             expect(parsed.subject).to.equal('Html Email', 'subjects do not match!');
 
@@ -88,11 +88,11 @@ describe('ParserService', () => {
                 header: {
                     messageId: 'messageidAttachment',
                     from: {
-                        address: 'test@mailkatcher.local',
+                        address: 'test@kalemail.local',
                     },
                     subject: 'Html Email with Attachment',
                     date: new Date().toString(),
-                    to: {address: 'test@mailkatcher.local'},
+                    to: {address: 'test@kalemail.local'},
                     contentType: {
                         mime: 'multipart/mixed'
                     }
@@ -126,11 +126,11 @@ describe('ParserService', () => {
             expect(parsed.to).to.be.an('array', 'to is not an array');
             expect(parsed.to).to.have.length.at.least(1, 'less than one memeber in to field');
             expect(parsed.to[0]).to.contain.keys('address');
-            expect(parsed.to[0].address).to.equal('test@mailkatcher.local', 'to field is not correct');
+            expect(parsed.to[0].address).to.equal('test@kalemail.local', 'to field is not correct');
 
 
             expect(parsed.from).to.contain.keys('address');
-            expect(parsed.from.address).to.equal('test@mailkatcher.local', 'from field is not correct');
+            expect(parsed.from.address).to.equal('test@kalemail.local', 'from field is not correct');
 
             expect(parsed.subject).to.equal('Html Email with Attachment', 'subjects do not match!');
 
@@ -148,11 +148,11 @@ describe('ParserService', () => {
                 header: {
                     messageId: 'messageidAlaternative',
                     from: {
-                        address: 'test@mailkatcher.local',
+                        address: 'test@kalemail.local',
                     },
                     subject: 'Alternative Email',
                     date: new Date().toString(),
-                    to: {address: 'test@mailkatcher.local'},
+                    to: {address: 'test@kalemail.local'},
                     contentType: {
                         mime: 'multipart/alternative'
                     }
@@ -182,11 +182,11 @@ describe('ParserService', () => {
             expect(parsed.to).to.be.an('array', 'to is not an array');
             expect(parsed.to).to.have.length.at.least(1, 'less than one memeber in to field');
             expect(parsed.to[0]).to.contain.keys('address');
-            expect(parsed.to[0].address).to.equal('test@mailkatcher.local', 'to field is not correct');
+            expect(parsed.to[0].address).to.equal('test@kalemail.local', 'to field is not correct');
 
 
             expect(parsed.from).to.contain.keys('address');
-            expect(parsed.from.address).to.equal('test@mailkatcher.local', 'from field is not correct');
+            expect(parsed.from.address).to.equal('test@kalemail.local', 'from field is not correct');
 
             expect(parsed.subject).to.equal('Alternative Email', 'subjects do not match!');
 
@@ -200,17 +200,17 @@ describe('ParserService', () => {
                 header: {
                     messageId: 'messageidMulti',
                     from: {
-                        address: 'test@mailkatcher.local',
+                        address: 'test@kalemail.local',
                     },
                     subject: 'multi Email',
                     date: new Date().toString(),
                     to: [
-                        {address: 'test@mailkatcher.local'},
-                        {address: 'test2@mailkatcher.local', name: 'The Second Guy'},
+                        {address: 'test@kalemail.local'},
+                        {address: 'test2@kalemail.local', name: 'The Second Guy'},
                     ],
                     cc: [
-                        {address: 'testcc@mailkatcher.local'},
-                        {address: 'testcc2@mailkatcher.local', name: 'The Second CC Guy'},
+                        {address: 'testcc@kalemail.local'},
+                        {address: 'testcc2@kalemail.local', name: 'The Second CC Guy'},
                     ],
                 },
                 '0': 'This is a plaintext email'
@@ -222,21 +222,21 @@ describe('ParserService', () => {
             expect(parsed.to).to.be.an('array', 'to is not an array');
             expect(parsed.to).to.have.length.at.least(2, 'less than 2 memeber in to field');
             expect(parsed.to).to.satisfy(to => to.every(t => !!t.address), 'not all recipients have an address!');
-            expect(parsed.to[0].address).to.equal('test@mailkatcher.local', 'to field is not correct');
-            expect(parsed.to[1].address).to.equal('test2@mailkatcher.local', 'to field is not correct');
+            expect(parsed.to[0].address).to.equal('test@kalemail.local', 'to field is not correct');
+            expect(parsed.to[1].address).to.equal('test2@kalemail.local', 'to field is not correct');
             expect(parsed.to[1].name).to.equal('The Second Guy', 'name field is not correctly parsed from to');
 
             expect(parsed.cc).to.be.an('array', 'to is not an array');
             expect(parsed.cc).to.have.length.at.least(2, 'less than 2 memeber in to field');
             expect(parsed.cc[0]).to.contain.keys(['address']);
             expect(parsed.cc[1]).to.contain.keys(['address', 'name']);
-            expect(parsed.cc[0].address).to.equal('testcc@mailkatcher.local', 'cc field is not correct');
-            expect(parsed.cc[1].address).to.equal('testcc2@mailkatcher.local', 'cc field is not correct');
+            expect(parsed.cc[0].address).to.equal('testcc@kalemail.local', 'cc field is not correct');
+            expect(parsed.cc[1].address).to.equal('testcc2@kalemail.local', 'cc field is not correct');
             expect(parsed.cc[1].name).to.equal('The Second CC Guy', 'name field is not correctly parsed from to');
 
 
             expect(parsed.from).to.contain.keys('address');
-            expect(parsed.from.address).to.equal('test@mailkatcher.local', 'from field is not correct');
+            expect(parsed.from.address).to.equal('test@kalemail.local', 'from field is not correct');
         });
     });
 });
