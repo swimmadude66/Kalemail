@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <a class="pull-left" [routerLink]="['/']">&lt; Back to Mailboxes</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h1>Mailbox for {{mailbox}}</h1>
+            <h2>{{emails.length}} <small>Messages</small></h2>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12" *ngIf="emails?.length">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead class="thead-default">
+                      <tr class="table-header">
+                          <th class="text-column">From</th>
+                          <th class="text-column">Subject</th>
+                          <th class="date-column">Received</th>
+                          <th class="text-column">Test</th>
+                          <th class="text-column">Results</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <ng-container *ngFor="let email of emails; let i = index">
+                                <tr class ="table-data" *ngIf="i<50" (click)="openEmail(email.EmailId)">
+                                    <td class="text-column">{{email.From}}</td>
+                                    <td class="text-column">{{email.Subject}}</td>
+                                    <td class="date-column">{{email.CreatedDate | date:'medium'}}</td>
+                                    <td class="text-column">
+                                        <button class="btn btn-flat" (click)="triggerTest($event, email.EmailId)">
+                                            {{email.LastTestId ? 'Re-Test' : 'Create Test'}}
+                                        </button>
+                                    </td>
+                                    <td class="text-column">
+                                        <a *ngIf="email.LastTestId" [routerLink]="['/results', email.LastTestId]">View Last Results</a>
+                                    </td>
+                                </tr>
+                          </ng-container>
+                      </tbody>
+              </table>
+            </div>
+        </div>
+        <ng-container *ngIf="!emails || emails.length < 1">
+            <div class="col-12">
+                <h1>No emails here</h1>
+                <h2 *ngIf="page > 0">Try an earlier page</h2>
+            </div>
+        </ng-container>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6">
+            <button class="btn pull-left" [routerLink]="['/mailbox', mailbox]" [queryParams]="{page: page-1}" [disabled]="page < 2">
+                Prev Page
+            </button>
+        </div>
+        <div class="col-6">
+            <button class="btn pull-right" [routerLink]="['/mailbox', mailbox]" [queryParams]="{page: page+1}" [disabled]="emails.length < 51">
+                Next Page
+            </button>
+        </div>
+    </div>
+</div>

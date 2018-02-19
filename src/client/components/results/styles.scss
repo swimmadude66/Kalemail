@@ -1,0 +1,36 @@
+@import '../../scss/_variables';
+
+
+.test-id {
+    font-weight: bold;
+    font-size: 24px;
+    padding: 20px 5px;
+    margin: 5px 0;
+}
+
+.result-tile {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #efefef;
+
+    .client-name {
+        font-size: 16px;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+    }
+
+    .client-status {
+        font-variant: small-caps;
+        color: #666;
+        text-align: center;
+    }
+
+    .thumbnail {
+        width: 170px;
+        height: 180px;
+        background: white no-repeat;
+    }
+}
+
+

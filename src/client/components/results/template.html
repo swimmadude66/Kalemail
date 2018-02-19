@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <p class="test-id">TestId: {{testId}}</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="error && error.length">
+        <div class="col-12">
+            <p class="error">{{error}}</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="processing">
+        <div class="col-12">
+            <h1>Loading...</h1>
+        </div>
+    </div>
+    <div class="row" *ngIf="!error && !processing">
+        <div class="col-3 result-tile" *ngFor="let result of results">
+            <p class="client-name">{{result?.display_name}}</p>
+            <p class="client-status">{{result?.status}}</p>
+            <a *ngIf="result.screenshots.default" href="{{result?.screenshots?.default}}" target="_blank" rel="noopener noreferrer">
+                <img class="thumbnail" *ngIf="result?.status === 'Complete'" src="{{result?.thumbnail}}" alt="{{result.display_name}}">
+                <img class="thumbnail" *ngIf="result?.status !== 'Complete'" src="/assets/img/questionmark.svg" alt="no thumbnail">
+            </a>
+            <img class="thumbnail" *ngIf="!result.screenshots || !result.screenshots.default" src ="/assets/img/questionmark.svg" alt="screenshot loading">
+        </div>
+    </div>
+</div>

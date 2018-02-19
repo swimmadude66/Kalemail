@@ -1,0 +1,59 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Mailkatcher</h1>
+            <br />
+            <button type="button" name="" id="" class="btn btn-danger btn-block" *ngIf="currentQuery && currentQuery.length" (click)="clearSearch()">
+                Clear Search
+            </button>
+            <br />
+            <form class="form" (submit)="searchMailboxes(query)">
+                <div class="input-group">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="search mailboxes" [(ngModel)]="query">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="submit">Search</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class="thead-default">
+                    <tr class="table-header">
+                        <th class="text-column">Mailbox</th>
+                        <th class="number-column">Message Count</th>
+                        <th class="date-column">Last Received</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let mailbox of mailboxes; let i = index">
+                            <tr class="table-data" *ngIf="i<50" (click)="openMailbox(mailbox)">
+                                <td class="text-column">{{mailbox.mailbox}}</td>
+                                <td class="number-column">{{mailbox.messageCount}}</td>
+                                <td class="date-column">{{mailbox.latestMessage | date:'medium'}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6">
+            <button class="btn pull-left" (click)="getMailboxes(page-1)" [disabled]="page < 2">
+                Prev Page
+            </button>
+        </div>
+        <div class="col-6">
+            <button class="btn pull-right" (click)="getMailboxes(page+1)" [disabled]="mailboxes?.length < 51">
+                Next Page
+            </button>
+        </div>
+    </div>
+</div>

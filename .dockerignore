@@ -1,0 +1,16 @@
+dist
+.vscode
+node_modules/
+logs
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+lib-cov
+coverage
+
+.env
+*.env
+
+package-lock.json

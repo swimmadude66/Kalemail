@@ -1,0 +1,12 @@
+//animations
+@mixin -transform($op1, $op2) {
+  -ms-transform: $op1 $op2;
+  -webkit-transform: $op1 $op2;
+  transform: $op1 $op2;
+}
+
+@mixin transform-origin($x, $y) {
+  -ms-transform-origin: $x $y;
+  -webkit-transform-origin: $x $y;
+  transform-origin: $x $y;
+}

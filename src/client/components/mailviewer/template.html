@@ -1,0 +1,40 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <strong>Sent to:</strong>
+            <br/>
+            <ng-container *ngFor="let to of email?.RCPTO; let i = index">
+                <a class="mailbox-link" [routerLink]="['/mailbox', to]">{{to}}<span *ngIf="i !== email?.RCPTO.length-1">,&nbsp;</span></a>
+            </ng-container>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h1>{{email.subject}}</h1>
+            <h2>From <small>{{email?.from.address}}</small></h2>
+            <a [href]="emailContentsLink" target="_blank">View in Full Screen</a>
+            <button class="btn btn-default pull-right" (click)="viewRaw=!viewRaw">{{viewRaw?'View HTML':'View Raw'}}</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="attachment-wrapper" *ngFor="let att of email?.attachments" (click)="download(att)" title="{{att?.filename}}">
+            <img class="file-icon" src="/assets/img/file-icon.svg">
+            <p class="filename">{{att.filename}}</p>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Not ngIf so that viewChild works! -->
+    <div class="row iframe-container" [hidden]="viewRaw">
+        <div class="col-12 iframe-column">
+            <iframe class="html-content" #emailViewer></iframe>
+        </div>
+    </div>
+
+    <div class="row" [hidden]="!viewRaw">
+        <div class="col-12 raw-container" #rawViewer>
+        </div>
+    </div>
+
+</div>

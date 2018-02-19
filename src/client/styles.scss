@@ -1,0 +1,59 @@
+@import '~bootstrap/scss/bootstrap';
+@import '~font-awesome/scss/font-awesome';
+@import './scss/_variables';
+
+html {
+    height: 100%;
+
+    body {
+        height: 100%;
+    }
+}
+
+
+h3 {
+    font-size: 18px;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.ghost {
+    opacity: 0.4;
+    background-color: #666;
+}
+
+.btn {
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+a.dropdown-item {
+    cursor: pointer;
+}
+
+.table {
+    thead {
+        tr {
+            border-bottom: 3px solid #ccc;
+        }
+    }
+
+    .text-column {
+        text-align: left;
+    }
+
+    .number-column {
+        text-align: center;
+    }
+
+    .date-column {
+        text-align: right;
+    }
+}
+
+
