@@ -13,14 +13,19 @@ import {Subject} from 'rxjs/Rx';
 import {Session, SMTPServer} from 'smtp-server';
 import {Readable} from 'stream';
 
-import {AppConfig, EnvironmentConfig} from './config';
-import {DatabaseService} from './services/db';
-import {MailService} from './services/mail';
-import {S3StorageService} from './services/s3';
-import {EmailParser} from './services/parser';
+import {
+    DatabaseService,
+    EmailOnAcidService,
+    EmailParser,
+    MailService,
+    IStorageService,
+    FileSystemStorageService,
+    S3StorageService
+} from './services';
 import {ParsedMail} from './models/parsedmail';
-import { IStorageService } from './services/istorage';
-import { FileSystemStorageService } from './services/filesystem';
+import {AppConfig, EnvironmentConfig} from './config';
+
+
 
 dotenv.config({silent: true});
 
