@@ -1,5 +1,5 @@
 {
-  "name": "mailkatcher",
+  "name": "kalemail",
   "version": "1.0.0",
   "description": "a fake email server for testing emails",
   "main": "dist/server/app.js",

@@ -133,7 +133,7 @@ mailSubject
 // Default smtp settings
 let smtpSettings: any = {
     logger: true,
-    name: 'mailkatcher-server',
+    name: 'kalemail-server',
     disableReverseLookup: true,
     disabledCommands: ['AUTH'],
 };

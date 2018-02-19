@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'mailkatcher-app',
+  selector: 'kalemail-app',
   templateUrl: './template.html'
 })
 export class AppComponent {
