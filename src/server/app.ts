@@ -87,19 +87,9 @@ if (ENVIRONMENT_CONFIG.s3Bucket && ENVIRONMENT_CONFIG.s3Bucket.length) {
     } catch (e) {
         console.error('Could not connect to S3 with provided creds');
     }
-}
-
-if (!storage) {
-    if (ENVIRONMENT_CONFIG.fileSystemStorageRoot) {
-        try {
-            storage = new FileSystemStorageService(ENVIRONMENT_CONFIG.fileSystemStorageRoot);
-        } catch (e) {
-            console.error(e);
-        }
-    } else {
-        console.error('No storage location provided!');
-        process.exit(1);
-    }
+} else {
+    console.error('Please provide S3 credentials!');
+    process.exit(1);
 }
 
 

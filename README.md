@@ -17,19 +17,16 @@ DB_DATABASE=mailkatcher (or whatever you named it when running the init-script)
 DB_USER=Login For Database User
 DB_PASSWORD=Password For Database User
 
-FILESYSTEM_ROOT=Accessible Folder for Email Storage
-OR
 S3_BUCKET=An S3 Bucket
 S3_FOLDER=Optional subfolder of bucket
 ```
 
-If you provide an S3 Bucket, you need to either run the app on a box with AWS IAM creds capable of accessing the bucket, or provide the creds in the environment variables:
+Also for S3, you need to either run the app on a box with AWS IAM creds capable of accessing the bucket, or provide the creds in the environment variables:
 ```
 S3_ACCESS=AKIAICFVECTHR56YNTGQ
 S3_SECRET=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
 S3_REGION=us-east-1
 ```
-
 Once these variables are set:
 
 1. Clone the project, and run `npm i`.

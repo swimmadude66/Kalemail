@@ -1,9 +1,9 @@
+import * as uuid from 'uuid/v4';
 import {Observable} from 'rxjs/Rx';
 import {IStorageService} from './istorage';
 import {ParsedMail} from '../models/parsedmail';
-import {readFile, writeFile, existsSync, accessSync, constants} from 'fs';
 import {join} from 'path';
-import * as uuid from 'uuid/v4';
+import {readFile, writeFile, existsSync, accessSync, mkdirSync, constants} from 'fs';
 
 export class FileSystemStorageService implements IStorageService {
     public type = 'FileSytem';
@@ -11,9 +11,7 @@ export class FileSystemStorageService implements IStorageService {
     constructor (
         private baseDir: string
     ) {
-        if (!this._canAccess(baseDir)) {
-            throw(new Error(`Cannot access ${baseDir}`));
-        }
+
     }
 
 
