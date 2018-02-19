@@ -1,9 +1,9 @@
+import * as uuid from 'uuid/v4';
 import {Observable} from 'rxjs/Rx';
 import {IStorageService} from './istorage';
 import {ParsedMail} from '../models/parsedmail';
-import {readFile, writeFile, existsSync, mkdirSync} from 'fs';
 import {join} from 'path';
-import * as uuid from 'uuid/v4';
+import {readFile, writeFile, existsSync, accessSync, mkdirSync, constants} from 'fs';
 
 export class FileSystemStorageService implements IStorageService {
     public type = 'FileSytem';
@@ -11,12 +11,7 @@ export class FileSystemStorageService implements IStorageService {
     constructor (
         private baseDir: string
     ) {
-        if (!this._accessFolder(baseDir)) {
-            baseDir = './mail';
-            if(!this._accessFolder(baseDir)) {
-                throw(new Error('Could not access local mail storage location'));
-            }
-        }
+
     }
 
 
@@ -56,14 +51,7 @@ export class FileSystemStorageService implements IStorageService {
         );
     }
 
-    private _accessFolder(dir): boolean {
-        if (!existsSync(dir)) {
-            try {
-                mkdirSync(dir);
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
+    private _canAccess(dir: string) {
+        return existsSync(dir) && accessSync(dir, constants.W_OK) && accessSync(dir, constants.R_OK);
     }
 }

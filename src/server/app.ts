@@ -87,19 +87,9 @@ if (ENVIRONMENT_CONFIG.s3Bucket && ENVIRONMENT_CONFIG.s3Bucket.length) {
     } catch (e) {
         console.error('Could not connect to S3 with provided creds');
     }
-}
-
-if (!storage) {
-    let location = './mail';
-    if (ENVIRONMENT_CONFIG.fileSystemStorageRoot) {
-        location = ENVIRONMENT_CONFIG.fileSystemStorageRoot;
-    }
-    try {
-        storage = new FileSystemStorageService(location);
-    } catch (e) {
-        console.error(e);
-        process.exit(1);
-    }
+} else {
+    console.error('Please provide S3 credentials!');
+    process.exit(1);
 }
 
 
