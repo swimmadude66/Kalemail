@@ -21,10 +21,15 @@ S3_BUCKET=An S3 Bucket
 S3_FOLDER=Optional subfolder of bucket
 ```
 
-Also for S3, you need to either run the app on a box with AWS IAM creds capable of accessing the bucket, or provide the creds in the environment variables:
+Also for S3, you need to either run the app on a box with AWS IAM creds capable of accessing the bucket, configure the AWS Standard Keys:
 ```
-S3_ACCESS=AKIAICFVECTHR56YNTGQ
-S3_SECRET=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
+AWS_ACCESS_KEY_ID=Access_Key
+AWS_SECRET_ACCESS_KEY=Secret_key
+```
+or provide the creds in the environment variables:
+```
+S3_ACCESS=Your AWS Access Key
+S3_SECRET=Your AWS Secret Key
 S3_REGION=us-east-1
 ```
 Once these variables are set:
