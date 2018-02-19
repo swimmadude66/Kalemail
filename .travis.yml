@@ -6,3 +6,4 @@ services:
 script: docker build -t KabbageInc/Kalemail .
 before_deploy: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 deploy: docker push KabbageInc/Kalemail
+after_deploy: docker rmi -f KabbageInc/Kalemail
