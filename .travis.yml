@@ -1,9 +1,14 @@
 sudo: required
+language: node_js
 
 services:
   - docker
 
-script: docker build -t kabbageinc/kalemail .
-before_deploy: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-deploy: docker push kabbageinc/kalemail
-after_deploy: docker rmi -f kabbageinc/kalemail
+branches:
+  only:
+  - master
+
+install: docker build -t kabbageinc/kalemail .
+script: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+after_success: docker push kabbageinc/kalemail
+after_script: docker rmi -f kabbageinc/kalemail
