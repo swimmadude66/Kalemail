@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {TestResult} from '../../models/tests';
 import {ActivatedRoute} from '@angular/router';
+import {BaseSubscriberComponent} from '../base/component';
+import {TestResult} from '../../models/tests';
 import {EmailTestsService} from '../../services/tests';
 
 
@@ -9,7 +10,7 @@ import {EmailTestsService} from '../../services/tests';
     templateUrl: './template.html',
     styleUrls: ['./styles.scss']
 })
-export class ResultsComponent implements OnInit {
+export class ResultsComponent extends BaseSubscriberComponent implements OnInit {
 
     testId: string;
     results: TestResult[];
@@ -20,21 +21,25 @@ export class ResultsComponent implements OnInit {
     constructor (
         private _test: EmailTestsService,
         private _route: ActivatedRoute
-    ) { }
+    ){
+        super();
+    }
 
     ngOnInit() {
         this.testId = this._route.snapshot.paramMap.get('testid');
-        this._test.getTestResults(this.testId)
-        .subscribe(
-            results => {
-                this.processing = false;
-                this.results = results;
-            },
-            err => {
-                console.error(err);
-                this.error = err.toString();
-                this.processing = false;
-            }
+        this.addSubscription(
+            this._test.getTestResults(this.testId)
+            .subscribe(
+                results => {
+                    this.processing = false;
+                    this.results = results;
+                },
+                err => {
+                    console.error(err);
+                    this.error = err.toString();
+                    this.processing = false;
+                }
+            )
         );
     }
 }

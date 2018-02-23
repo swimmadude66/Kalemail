@@ -12,7 +12,6 @@ import {join} from 'path';
 import {Subject} from 'rxjs/Rx';
 import {Session, SMTPServer} from 'smtp-server';
 import {Readable} from 'stream';
-
 import {
     DatabaseService,
     EmailOnAcidService,
@@ -24,8 +23,6 @@ import {
 } from './services';
 import {ParsedMail} from './models/parsedmail';
 import {AppConfig, EnvironmentConfig} from './config';
-
-
 
 dotenv.config({silent: true});
 
