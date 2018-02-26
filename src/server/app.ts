@@ -114,7 +114,7 @@ if (ENVIRONMENT_CONFIG.forwardAddress) {
 const mailSubject = new Subject<ParsedMail>();
 // The subject lets us debounce on the fly
 mailSubject
-.distinct(m => m.messageId && m.RCPTO)
+.distinctUntilChanged((o, n) => (o.messageId === n.messageId) && (o.RCPTO === n.RCPTO))
 .subscribe(
     mail => {
         if (mail.html) {
