@@ -110,12 +110,12 @@ export class EmailParser {
                     && ('mime' in part['header']['contentType'])
                     && (/text\/html/i.test(part['header']['contentType']['mime']))
                 ) {
-                    parsedMail.html = part['0'];
+                    parsedMail.html = part['0'].toString(); // force string, just in case
                 } else {
-                    parsedMail.text = part['0'];
+                    parsedMail.text = part['0'].toString(); // force string, just in case
                 }
             } else {
-                parsedMail.text = part;
+                parsedMail.text = part.toString(); // force string, just in case
             }
         });
         if (!parsedMail.html || !parsedMail.html.length) {
