@@ -112,9 +112,9 @@ if (ENVIRONMENT_CONFIG.forwardAddress) {
 
 /* Email Handler */
 const mailSubject = new Subject<ParsedMail>();
-// The subject lets us debounce on the fly
+// The subject lets us debounce on the fly -- DISABLED UNIL DEBUGGED
 mailSubject
-.distinctUntilChanged((o, n) => (o.messageId === n.messageId) && (o.RCPTO === n.RCPTO))
+// .distinctUntilChanged((o, n) => (o.messageId === n.messageId) && (o.RCPTO === n.RCPTO))
 .subscribe(
     mail => {
         if (mail.html) {
