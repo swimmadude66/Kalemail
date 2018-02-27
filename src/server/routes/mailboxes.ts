@@ -1,9 +1,10 @@
 import {Router} from 'express';
 import {AppConfig} from '../config';
+import {MailService} from '../services';
 
 module.exports = (APP_CONFIG: AppConfig) => {
     const router = Router();
-    const mail = APP_CONFIG.MailService;
+    const mail: MailService = APP_CONFIG.MailService;
 
 
     router.get('/', (req, res) => {
