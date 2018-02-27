@@ -8,7 +8,9 @@ branches:
   only:
   - master
 
-install: docker build -t kabbageinc/kalemail .
-script: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-after_success: docker push kabbageinc/kalemail
-after_script: docker rmi -f kabbageinc/kalemail
+install: true
+script:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker build -t kabbageinc/kalemail:latest .
+after_success: docker push kabbageinc/kalemail:latest
+after_script: docker rmi -f kabbageinc/kalemail:latest

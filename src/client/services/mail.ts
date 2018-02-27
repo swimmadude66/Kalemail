@@ -9,9 +9,16 @@ export class MailService {
     constructor (private _http: HttpClient) {}
 
     getAllMail(page?: number): Observable<Email[]> {
-        const params = new HttpParams();
-        params.set('page', '' + page);
-        return this._http.get<Email[]>('/api/mail', {params});
+        const opts = {};
+        if (page) {
+            const params = new HttpParams({
+                fromObject: {
+                    page: '' + page
+                }
+            });
+            opts['params'] = params;
+        }
+        return this._http.get<Email[]>('/api/mail', opts);
     }
 
     getMail(emailId: number): Observable<ParsedMail> {

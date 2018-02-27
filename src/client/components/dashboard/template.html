@@ -44,14 +44,14 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row page-row">
         <div class="col-6">
-            <button class="btn pull-left" (click)="getMailboxes(page-1)" [disabled]="page < 2">
+            <button class="btn pull-left" (click)="getMailboxes(page - 1)" [disabled]="page < 2">
                 Prev Page
             </button>
         </div>
         <div class="col-6">
-            <button class="btn pull-right" (click)="getMailboxes(page+1)" [disabled]="mailboxes?.length < 51">
+            <button class="btn pull-right" (click)="getMailboxes(page + 1)" [disabled]="mailboxes?.length < 51">
                 Next Page
             </button>
         </div>
