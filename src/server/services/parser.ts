@@ -90,6 +90,7 @@ export class EmailParser {
         return parsedMail;
     }
 
+
     private _processPart(part, email): void {
         if (part['header']) {
             if (this._isAttachment(part)) {
@@ -104,7 +105,7 @@ export class EmailParser {
                         email.text = part['0'].toString(); // force string, just in case
                     } catch (e) {
                         const json = JSON.stringify(part['0']);
-                        console.error('Expected string part, got', JSON.stringify(part));
+                        console.error('part[0] was not a string. Context:', JSON.stringify(part, null, 2));
                         email.text = json;
                     }
                 }
@@ -114,7 +115,7 @@ export class EmailParser {
                     email.text = part['0'].toString(); // force string, just in case
                 } catch (e) {
                     const json = JSON.stringify(part['0']);
-                    console.error('Expected string part, got', JSON.stringify(part));
+                    console.error('part[0] was not a string. Context:', JSON.stringify(part, null, 2));
                     email.text = json;
                 }
             }
@@ -123,7 +124,7 @@ export class EmailParser {
                 email.text = part.toString(); // force string, just in case
             } catch (e) {
                 const json = JSON.stringify(part);
-                console.error('Expected string entirety, got', json);
+                console.error('Expected part to be string, was:', json);
                 email.text = json;
             }
         }
