@@ -88,18 +88,19 @@ export class EmailParser {
                     let contentType = 'text/plain';
                     let content;
                     let filename;
-                    if (
-                        part['header']['contentType']
-                        && part['header']['contentType']['mime']
-                    ) {
-                        contentType = part['header']['contentType']['mime'];
-                        if (!(/text\//i.test(part['header']['contentType']['mime']))) {
+                    if (part['header']['contentType']) {
+                        if (part['header']['contentType']['mime']){
+                            contentType = part['header']['contentType']['mime'];
+                        }
+                        if (!(/text\//i.test(contentType))) {
                             content = part['0'].toString('base64');
                         } else {
                             content = new Buffer(part['0']).toString('base64');
                         }
-                        if ('name' in part['header']['contentType']['mime']) {
-                            filename = part['header']['contentType']['mime']['name'];
+                        if (part['header']['contentType']['name']) {
+                            filename = part['header']['contentType']['name'];
+                        } else {
+                            filename = part['header']['contentDisposition']['filename'];
                         }
                     } else {
                         content = new Buffer(part['0']).toString('base64');
@@ -121,7 +122,7 @@ export class EmailParser {
                         parsedMail.text = part['0'].toString(); // force string, just in case
                     } catch (e) {
                         const json = JSON.stringify(part['0']);
-                        console.error('Expected string, got', json);
+                        console.error('Expected string part, got', json);
                         parsedMail.text = json;
                     }
                 }
@@ -130,7 +131,7 @@ export class EmailParser {
                     parsedMail.text = part.toString(); // force string, just in case
                 } catch (e) {
                     const json = JSON.stringify(part);
-                    console.error('Expected string, got', json);
+                    console.error('Expected string entirety, got', json);
                     parsedMail.text = json;
                 }
             }
@@ -149,7 +150,7 @@ export class EmailParser {
         && (
             ('filename' in part['header']['contentDisposition'])
             ||
-            (part['hader']['contentType'] && part['hader']['contentType']['mime'] && 'name' in part['hader']['contentType']['mime'])
+            (part['hader']['contentType'] && 'name' in part['hader']['contentType'])
         );
     }
 
