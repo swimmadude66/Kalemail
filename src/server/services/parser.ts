@@ -82,59 +82,7 @@ export class EmailParser {
         .filter(k => k !== 'header')
         .forEach(emailKey => {
             const part = email[emailKey];
-            if (part['header']) {
-                if (this._isAttachment(part)) {
-                    parsedMail.attachments = parsedMail.attachments || [];
-                    let contentType = 'text/plain';
-                    let content;
-                    let filename;
-                    if (part['header']['contentType']) {
-                        if (part['header']['contentType']['mime']){
-                            contentType = part['header']['contentType']['mime'];
-                        }
-                        if (!(/text\//i.test(contentType))) {
-                            content = part['0'].toString('base64');
-                        } else {
-                            content = new Buffer(part['0']).toString('base64');
-                        }
-                        if (part['header']['contentType']['name']) {
-                            filename = part['header']['contentType']['name'];
-                        } else {
-                            filename = part['header']['contentDisposition']['filename'];
-                        }
-                    } else {
-                        content = new Buffer(part['0']).toString('base64');
-                        filename = part['header']['contentDisposition']['filename'];
-                    }
-                    parsedMail.attachments.push({
-                        filename,
-                        contentType,
-                        content,
-                    });
-                } else if (
-                    ('contentType' in part['header'])
-                    && ('mime' in part['header']['contentType'])
-                    && (/text\/html/i.test(part['header']['contentType']['mime']))
-                ) {
-                    parsedMail.html = part['0'];
-                } else {
-                    try {
-                        parsedMail.text = part['0'].toString(); // force string, just in case
-                    } catch (e) {
-                        const json = JSON.stringify(part['0']);
-                        console.error('Expected string part, got', json);
-                        parsedMail.text = json;
-                    }
-                }
-            } else {
-                try {
-                    parsedMail.text = part.toString(); // force string, just in case
-                } catch (e) {
-                    const json = JSON.stringify(part);
-                    console.error('Expected string entirety, got', json);
-                    parsedMail.text = json;
-                }
-            }
+            this._processPart(part, parsedMail);
         });
         if (!parsedMail.html || !parsedMail.html.length) {
             parsedMail.html = `${parsedMail.text || ''}`;
@@ -142,15 +90,86 @@ export class EmailParser {
         return parsedMail;
     }
 
+    private _processPart(part, email): void {
+        if (part['header']) {
+            if (this._isAttachment(part)) {
+                this._processAttachment(part, email);
+            } else if (part['header']['contentType'] && part['header']['contentType']['mime']) {
+                if (/text\/html/i.test(part['header']['contentType']['mime'])) {
+                    email.html = part['0'];
+                } else if (/multipart\//i.test(part['header']['contentType']['mime'])){
+                    this._processPart(part['0'], email);
+                } else {
+                    try {
+                        email.text = part['0'].toString(); // force string, just in case
+                    } catch (e) {
+                        const json = JSON.stringify(part['0']);
+                        console.error('Expected string part, got', JSON.stringify(part));
+                        email.text = json;
+                    }
+                }
+            }
+            else {
+                try {
+                    email.text = part['0'].toString(); // force string, just in case
+                } catch (e) {
+                    const json = JSON.stringify(part['0']);
+                    console.error('Expected string part, got', JSON.stringify(part));
+                    email.text = json;
+                }
+            }
+        } else {
+            try {
+                email.text = part.toString(); // force string, just in case
+            } catch (e) {
+                const json = JSON.stringify(part);
+                console.error('Expected string entirety, got', json);
+                email.text = json;
+            }
+        }
+    }
+
+    private _processAttachment(part, email: ParsedMail): void {
+        email.attachments = email.attachments || [];
+        let contentType = 'text/plain';
+        let content;
+        let filename;
+        if (part['header']['contentType']) {
+            if (part['header']['contentType']['mime']){
+                contentType = part['header']['contentType']['mime'];
+            }
+            if (part['0']['type'] && part['0']['type'] === 'Buffer') {
+                content = part['0']['data'].toString('base64');
+            } else if (!(/text\//i.test(contentType))) {
+                content = part['0'].toString('base64');
+            } else {
+                content = new Buffer(part['0']).toString('base64');
+            }
+            if (part['header']['contentType']['name']) {
+                filename = part['header']['contentType']['name'];
+            } else {
+                filename = part['header']['contentDisposition']['filename'];
+            }
+        } else {
+            content = new Buffer(part['0']).toString('base64');
+            filename = part['header']['contentDisposition']['filename'];
+        }
+        email.attachments.push({
+            filename,
+            contentType,
+            content,
+        });
+    }
+
     private _isAttachment(part): boolean {
         return (part['header'])
-        && ('contentDisposition' in part['header'])
-        && ('mime' in part['header']['contentDisposition'])
+        && (part['header']['contentDisposition'])
+        && (part['header']['contentDisposition']['mime'])
         && (part['header']['contentDisposition']['mime'] === 'attachment')
         && (
-            ('filename' in part['header']['contentDisposition'])
+            (part['header']['contentDisposition']['filename'])
             ||
-            (part['hader']['contentType'] && 'name' in part['hader']['contentType'])
+            (part['header']['contentType'] && part['header']['contentType']['name'])
         );
     }
 
