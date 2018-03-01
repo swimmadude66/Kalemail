@@ -87,6 +87,7 @@ export class EmailParser {
                     parsedMail.attachments = parsedMail.attachments || [];
                     let contentType = 'text/plain';
                     let content;
+                    let filename;
                     if (
                         part['header']['contentType']
                         && part['header']['contentType']['mime']
@@ -97,11 +98,15 @@ export class EmailParser {
                         } else {
                             content = new Buffer(part['0']).toString('base64');
                         }
+                        if ('name' in part['header']['contentType']['mime']) {
+                            filename = part['header']['contentType']['mime']['name'];
+                        }
                     } else {
                         content = new Buffer(part['0']).toString('base64');
+                        filename = part['header']['contentDisposition']['filename'];
                     }
                     parsedMail.attachments.push({
-                        filename: part['header']['contentDisposition']['filename'],
+                        filename,
                         contentType,
                         content,
                     });
@@ -141,7 +146,11 @@ export class EmailParser {
         && ('contentDisposition' in part['header'])
         && ('mime' in part['header']['contentDisposition'])
         && (part['header']['contentDisposition']['mime'] === 'attachment')
-        && ('filename' in part['header']['contentDisposition']);
+        && (
+            ('filename' in part['header']['contentDisposition'])
+            ||
+            (part['hader']['contentType'] && part['hader']['contentType']['mime'] && 'name' in part['hader']['contentType']['mime'])
+        );
     }
 
 
