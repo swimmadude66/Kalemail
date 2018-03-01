@@ -110,12 +110,24 @@ export class EmailParser {
                     && ('mime' in part['header']['contentType'])
                     && (/text\/html/i.test(part['header']['contentType']['mime']))
                 ) {
-                    parsedMail.html = part['0'].toString(); // force string, just in case
+                    parsedMail.html = part['0'];
                 } else {
-                    parsedMail.text = part['0'].toString(); // force string, just in case
+                    try {
+                        parsedMail.text = part['0'].toString(); // force string, just in case
+                    } catch (e) {
+                        const json = JSON.stringify(part['0']);
+                        console.error('Expected string, got', json);
+                        parsedMail.text = json;
+                    }
                 }
             } else {
-                parsedMail.text = part.toString(); // force string, just in case
+                try {
+                    parsedMail.text = part.toString(); // force string, just in case
+                } catch (e) {
+                    const json = JSON.stringify(part);
+                    console.error('Expected string, got', json);
+                    parsedMail.text = json;
+                }
             }
         });
         if (!parsedMail.html || !parsedMail.html.length) {
