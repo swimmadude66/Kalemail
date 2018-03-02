@@ -118,11 +118,16 @@ mailSubject
 .subscribe(
     mail => {
         if (mail.html) {
-            mail.html = minify(mail.html, {collapseWhitespace: true, minifyCSS: true, minifyJS: true});
+            try {
+                mail.html = minify(mail.html, {collapseWhitespace: true, minifyCSS: true, minifyJS: true});
+            } catch (e) {
+                console.error(e);
+            }
         }
         mailservice.saveMail(mail.RCPTO, mail)
         .subscribe(
-            _ => console.log('mail saved')
+            _ => console.log('mail saved'),
+            err => console.error('Could not save mail: \n', err)
         );
     }
 );
