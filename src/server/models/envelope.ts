@@ -32,7 +32,7 @@ export interface EnvelopePartHeader {
 
 export interface EnvelopePart {
     header?: EnvelopePartHeader;
-    [key: number]: string;
+    [key: number]: EnvelopePart | string;
 }
 
 

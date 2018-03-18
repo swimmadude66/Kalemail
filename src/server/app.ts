@@ -112,17 +112,22 @@ if (ENVIRONMENT_CONFIG.forwardAddress) {
 
 /* Email Handler */
 const mailSubject = new Subject<ParsedMail>();
-// The subject lets us debounce on the fly
+// The subject lets us debounce on the fly -- DISABLED UNIL DEBUGGED
 mailSubject
-.distinct(m => m.messageId && m.RCPTO)
+// .distinctUntilChanged((o, n) => (o.messageId === n.messageId) && (o.RCPTO === n.RCPTO))
 .subscribe(
     mail => {
         if (mail.html) {
-            mail.html = minify(mail.html, {collapseWhitespace: true, minifyCSS: true, minifyJS: true});
+            try {
+                mail.html = minify(mail.html, {collapseWhitespace: true, minifyCSS: true, minifyJS: true});
+            } catch (e) {
+                console.error(e);
+            }
         }
         mailservice.saveMail(mail.RCPTO, mail)
         .subscribe(
-            _ => console.log('mail saved')
+            _ => console.log('mail saved'),
+            err => console.error('Could not save mail: \n', err)
         );
     }
 );
@@ -147,27 +152,39 @@ if (process.env.SMTP_SETTINGS) {
 const smtpServer = new SMTPServer({
     ...smtpSettings,
     onData: (stream: Readable, session: Session, callback) => {
+        const parser = new EmailParser();
         const rcp = session.envelope.rcptTo.map(t => t.address);
-        new EmailParser().parse(stream)
-            .then((mail: ParsedMail) => mailSubject.next({...mail, RCPTO: rcp}))
-            .catch(error => {
-                console.error(error);
-            });
-        stream.on('end', callback);
-        if (forward_transporter) {
-            const formattedStream = stream.pipe(new libqp.Decoder({}));
-            forward_transporter.sendMail({
-                envelope: {
-                    from: session.envelope.mailFrom.address,
-                    to: rcp
-                },
-                raw: formattedStream
-            }, (err, info) => {
-                if (err) {
-                    console.log(err);
+        parser.parseStream(stream)
+        .then(
+            rawEmail => {
+                const mail: ParsedMail = parser.parseBuffer(rawEmail);
+                mailSubject.next({...mail, RCPTO: rcp})
+                if (forward_transporter) {
+                    const decodedMail = libqp.decode(rawEmail, {lineLength: false});
+                    forward_transporter.sendMail({
+                        envelope: {
+                            from: session.envelope.mailFrom.address,
+                            to: rcp
+                        },
+                        messageId: mail.messageId,
+                        raw: decodedMail
+                    }, (err, info) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                        if (info) {
+                            console.log(info);
+                        }
+                    });
                 }
-            });
-        }
+                callback();
+            },
+            err => {
+                console.error(err);
+                callback(err);
+            }
+        );
+
     }
 });
 

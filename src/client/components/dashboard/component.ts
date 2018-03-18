@@ -43,6 +43,7 @@ export class DashboardComponent extends BaseSubscriberComponent implements OnIni
     }
 
     getMailboxes(page?: number) {
+        this.page = page;
         this._cleanUpSearch();
         if (this.currentQuery && this.currentQuery.length) {
             this._searchSub = this._mailboxService
